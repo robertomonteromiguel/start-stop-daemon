@@ -866,9 +866,9 @@ int main(int argc, char **argv){
 	}
 
 	if (workingdir){
-		chdir(workingdir)
+		chdir(workingdir);
 	}
-	
+
 	if (background) { /* ok, we need to detach this process */
 		int i, fd;
 		if (quietmode < 0)
