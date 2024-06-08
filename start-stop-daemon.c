@@ -865,7 +865,7 @@ int main(int argc, char **argv){
 			fatal("Unable to set uid to %s", changeuser);
 	}
 
-	if (workingdir){
+	if (workingdir != NULL){
 		chdir(workingdir);
 	}
 
