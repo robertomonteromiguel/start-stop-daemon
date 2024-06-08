@@ -44,6 +44,7 @@ static const char *userspec = NULL;
 static char *changeuser = NULL;
 static const char *changegroup = NULL;
 static char *changeroot = NULL;
+static char *workingdir = NULL;
 static const char *cmdname = NULL;
 static char *execname = NULL;
 static char *startas = NULL;
@@ -377,6 +378,7 @@ static void parse_options(int argc, char * const *argv) {
 		{ "test",	  0, NULL, 't'},
 		{ "user",	  1, NULL, 'u'},
 		{ "chroot",	  1, NULL, 'r'},
+		{ "chdir",	  1, NULL, 'C'},
 		{ "verbose",	  0, NULL, 'v'},
 		{ "exec",	  1, NULL, 'x'},
 		{ "chuid",	  1, NULL, 'c'},
@@ -445,6 +447,9 @@ static void parse_options(int argc, char * const *argv) {
 			break;
 		case 'r':  /* --chroot /new/root */
 			changeroot = optarg;
+			break;
+		case 'C':  /* --chdir /dir */
+			workingdir = optarg;
 			break;
 		case 'N':  /* --nice */
 			nicelevel = atoi(optarg);
@@ -850,6 +855,7 @@ int main(int argc, char **argv){
 		if (chroot(changeroot) < 0)
 			fatal("Unable to chroot() to %s", changeroot);
 	}
+
 	if (changeuser != NULL) {
  		if (setgid(runas_gid))
  			fatal("Unable to set gid to %d", runas_gid);
@@ -859,6 +865,10 @@ int main(int argc, char **argv){
 			fatal("Unable to set uid to %s", changeuser);
 	}
 
+	if (workingdir){
+		chdir(workingdir)
+	}
+	
 	if (background) { /* ok, we need to detach this process */
 		int i, fd;
 		if (quietmode < 0)
