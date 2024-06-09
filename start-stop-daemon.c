@@ -865,9 +865,6 @@ int main(int argc, char **argv){
 			fatal("Unable to set uid to %s", changeuser);
 	}
 
-	if (workingdir != NULL){
-		chdir(workingdir);
-	}
 
 	if (background) { /* ok, we need to detach this process */
 		int i, fd;
@@ -889,7 +886,12 @@ int main(int argc, char **argv){
 		fd = open("/dev/tty", O_RDWR);
 		ioctl(fd, TIOCNOTTY, 0);
 		close(fd);
-		chdir("/");
+		print("RMM C:: " + workingdir)
+		if (workingdir != NULL){
+			chdir(workingdir);
+		}else{
+			chdir("/");
+		}
 		umask(022); /* set a default for dumb programs */
 		setpgid(0,0);  /* set the process group */
 		fd=open("/dev/null", O_RDWR); /* stdin */
