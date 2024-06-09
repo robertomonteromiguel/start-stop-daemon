@@ -886,7 +886,6 @@ int main(int argc, char **argv){
 		fd = open("/dev/tty", O_RDWR);
 		ioctl(fd, TIOCNOTTY, 0);
 		close(fd);
-		print("RMM C:: " + workingdir);
 		if (workingdir != NULL){
 			chdir(workingdir);
 		}else{
